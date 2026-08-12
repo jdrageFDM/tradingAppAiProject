@@ -21,6 +21,26 @@
   --shadow: 0 20px 48px rgba(3, 7, 17, 0.42);
 }
 
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f2f6ff;
+  --bg-soft: #edf3ff;
+  --panel: rgba(255, 255, 255, 0.94);
+  --panel-strong: rgba(246, 250, 255, 1);
+  --panel-alt: rgba(243, 247, 255, 0.96);
+  --line: rgba(51, 82, 166, 0.14);
+  --line-strong: rgba(51, 82, 166, 0.2);
+  --text: #111b2e;
+  --muted: #536992;
+  --muted-strong: #213759;
+  --primary: #2d62f2;
+  --primary-strong: #2455d8;
+  --accent: #1ec9b2;
+  --success: #1d9d67;
+  --danger: #d45757;
+  --shadow: 0 18px 36px rgba(28, 52, 90, 0.12);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -38,6 +58,13 @@ body {
     radial-gradient(circle at bottom right, rgba(38, 241, 200, 0.09), transparent 26%),
     var(--bg);
   color: var(--text);
+}
+
+:root[data-theme='light'] body {
+  background:
+    radial-gradient(circle at top, rgba(45, 98, 242, 0.12), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(30, 201, 178, 0.1), transparent 25%),
+    var(--bg);
 }
 
 button,
@@ -65,6 +92,11 @@ button {
   background: linear-gradient(180deg, rgba(7, 14, 26, 0.98), rgba(9, 17, 31, 0.9));
   border-right: 1px solid var(--line);
   box-shadow: inset -1px 0 0 rgba(255,255,255,0.02);
+}
+
+:root[data-theme='light'] .sidebar-panel {
+  background: linear-gradient(180deg, rgba(245, 248, 255, 1), rgba(233, 240, 255, 0.96));
+  border-right-color: var(--line);
 }
 
 .brand-block {
@@ -166,6 +198,10 @@ button {
   box-shadow: var(--shadow);
 }
 
+:root[data-theme='light'] .topbar {
+  background: rgba(255, 255, 255, 0.92);
+}
+
 .search-box {
   display: grid;
   gap: 8px;
@@ -185,6 +221,19 @@ button {
   color: var(--text);
   padding: 12px 14px;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+}
+
+:root[data-theme='light'] .search-box input,
+:root[data-theme='light'] .search-field input,
+:root[data-theme='light'] .search-field select,
+:root[data-theme='light'] .trade-form input,
+:root[data-theme='light'] .trade-form select,
+:root[data-theme='light'] .profile-form input,
+:root[data-theme='light'] .profile-form select,
+:root[data-theme='light'] .preferences-form select {
+  background: rgba(248, 250, 255, 0.96);
+  color: var(--text);
+  border-color: var(--line);
 }
 
 .search-box input:focus {
@@ -262,6 +311,21 @@ button {
   background: rgba(255, 255, 255, 0.04);
   color: var(--text);
   border: 1px solid var(--line);
+}
+
+.theme-toggle {
+  background: rgba(59, 125, 255, 0.12);
+  border: 1px solid rgba(59, 125, 255, 0.24);
+  color: var(--text);
+  border-radius: 16px;
+  padding: 10px 14px;
+  font-weight: 600;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  background: rgba(59, 125, 255, 0.17);
 }
 
 .ghost-button:hover,
@@ -388,12 +452,382 @@ button {
   gap: 24px;
 }
 
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.metric-card {
+  display: grid;
+  gap: 8px;
+  padding: 18px 18px 16px;
+  border-radius: 18px;
+  background: rgba(18, 27, 43, 0.7);
+  border: 1px solid var(--line);
+}
+
+.metric-card span:first-child {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.metric-card strong {
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.metric-positive,
+.positive {
+  color: var(--success);
+}
+
+.metric-negative,
+.negative {
+  color: var(--danger);
+}
+
+.stretch-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 24px;
+}
+
+.watchlist-grid,
+.activity-log,
+.security-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.watchlist-grid li,
+.activity-log li,
+.security-list li {
+  display: grid;
+  gap: 8px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(18, 27, 43, 0.72);
+}
+
+.watchlist-grid li {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.watchlist-grid li div {
+  display: grid;
+  gap: 4px;
+}
+
+.watchlist-grid li span,
+.activity-log li span,
+.account-card span,
+.profile-card span,
+.market-hero div span,
+.preview-grid div span,
+.billing-row div span,
+.allocation-card span {
+  color: var(--muted);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.watchlist-grid li strong,
+.market-hero div strong,
+.preview-grid div strong,
+.billing-row div strong,
+.allocation-card strong,
+.account-card strong,
+.profile-card p,
+.activity-log li strong {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.market-hero {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.market-hero div {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(18, 27, 43, 0.72);
+}
+
+.account-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.profile-card,
+.account-card {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(18, 27, 43, 0.72);
+}
+
+.profile-card p,
+.account-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.profile-card small {
+  color: var(--muted);
+}
+
+.billing-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.billing-row div {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(18, 27, 43, 0.72);
+}
+
+.security-list li {
+  grid-template-columns: 1fr;
+}
+
+.security-list li p,
+.activity-log li p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.allocation-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.allocation-card {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(18, 27, 43, 0.72);
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.preview-grid div {
+  display: grid;
+  gap: 8px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(18, 27, 43, 0.72);
+}
+
+.trade-form {
+  display: grid;
+  gap: 18px;
+}
+
+.trade-form label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted-strong);
+}
+
+.trade-form input,
+.trade-form select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(15, 22, 35, 0.96);
+  color: var(--text);
+  padding: 12px 14px;
+}
+
+.trade-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+
+.trade-footer div {
+  display: grid;
+  gap: 6px;
+}
+
+.status-box {
+  margin-top: 18px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(59, 125, 255, 0.08);
+  border: 1px solid rgba(59, 125, 255, 0.18);
+}
+
+.status-box p {
+  margin: 0;
+  color: var(--text);
+}
+
+.activity-log li {
+  grid-template-columns: 110px 1fr auto;
+  align-items: center;
+}
+
+.activity-log li > span {
+  font-weight: 600;
+  color: var(--muted-strong);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  position: relative;
+}
+
+.login-toolbar {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}
+
+.login-panel {
+  width: min(100%, 460px);
+  background: linear-gradient(180deg, rgba(16, 24, 39, 0.96), rgba(11, 18, 31, 0.98));
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: 28px 24px;
+  box-shadow: var(--shadow);
+}
+
+:root[data-theme='light'] .login-panel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 249, 255, 0.98));
+}
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.login-brand h1 {
+  margin: 6px 0 0;
+  font-size: 2rem;
+}
+
+.login-subtitle {
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+
+.login-form {
+  display: grid;
+  gap: 18px;
+}
+
+.login-form label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted-strong);
+  font-size: 0.95rem;
+}
+
+.login-form input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--panel-alt);
+  color: var(--text);
+  padding: 12px 14px;
+}
+
+.login-form input::placeholder {
+  color: var(--muted);
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: rgba(59, 125, 255, 0.7);
+  box-shadow: 0 0 0 4px rgba(59, 125, 255, 0.12);
+}
+
+.checkbox-label {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+}
+
+.checkbox-label input {
+  width: 16px;
+  height: 16px;
+}
+
+.login-submit-button {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.login-note {
+  margin: 18px 0 0;
+  color: var(--muted);
+  text-align: center;
+}
+
 .section-card {
   background: linear-gradient(180deg, rgba(16, 24, 39, 0.96), rgba(11, 18, 31, 0.98));
   border: 1px solid var(--line);
   border-radius: 24px;
   padding: 22px;
   box-shadow: var(--shadow);
+}
+
+:root[data-theme='light'] .section-card,
+:root[data-theme='light'] .sidebar-card,
+:root[data-theme='light'] .allocation-card,
+:root[data-theme='light'] .profile-card,
+:root[data-theme='light'] .account-card,
+:root[data-theme='light'] .market-hero div,
+:root[data-theme='light'] .activity-log li,
+:root[data-theme='light'] .security-list li,
+:root[data-theme='light'] .preview-grid div,
+:root[data-theme='light'] .preferences-form .toggle-row {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: var(--line);
 }
 
 .section-title {

@@ -3,13 +3,63 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import ErrorBanner from '../components/ErrorBanner';
 
+const THEME_STORAGE_KEY = 'ai-trading-theme';
+const PREFERENCES_STORAGE_KEY = 'ai-trading-preferences';
+
+const resolveThemePreference = (): 'dark' | 'light' => {
+  const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+  if (storedTheme === 'light' || storedTheme === 'dark') {
+    return storedTheme;
+  }
+
+  const rawPreferences = localStorage.getItem(PREFERENCES_STORAGE_KEY);
+  if (rawPreferences) {
+    try {
+      const parsed = JSON.parse(rawPreferences);
+      if (parsed.theme === 'light' || parsed.theme === 'dark') {
+        return parsed.theme;
+      }
+    } catch {
+      // Ignore malformed stored preferences and fall through to browser preference.
+    }
+  }
+
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+    return 'light';
+  }
+
+  return 'dark';
+};
+
 function Login() {
   const navigate = useNavigate();
   const { user, login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const resolvedTheme = resolveThemePreference();
+    setTheme(resolvedTheme);
+    document.documentElement.setAttribute('data-theme', resolvedTheme);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+
+    try {
+      const storedPreferences = localStorage.getItem(PREFERENCES_STORAGE_KEY);
+      if (storedPreferences) {
+        const parsed = JSON.parse(storedPreferences);
+        localStorage.setItem(PREFERENCES_STORAGE_KEY, JSON.stringify({ ...parsed, theme }));
+      }
+    } catch {
+      localStorage.removeItem(PREFERENCES_STORAGE_KEY);
+    }
+  }, [theme]);
 
   useEffect(() => {
     if (user) {
@@ -36,11 +86,26 @@ function Login() {
     }
   };
 
+  const handleThemeToggle = () => {
+    setTheme((current) => (current === 'dark' ? 'light' : 'dark'));
+  };
+
   return (
     <div className="login-page">
+      <div className="login-toolbar">
+        <button type="button" className="theme-toggle" onClick={handleThemeToggle}>
+          {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+        </button>
+      </div>
       <section className="login-panel">
-        <h1>Welcome back</h1>
-        <p>Sign in to continue trading with TradePulse.</p>
+        <div className="login-brand">
+          <div className="brand-mark">AI</div>
+          <div>
+            <p className="small-label">TradePulse</p>
+            <h1>Welcome back</h1>
+          </div>
+        </div>
+        <p className="login-subtitle">Sign in to continue trading with TradePulse.</p>
         {error && <ErrorBanner message={error} />}
         <form className="login-form" onSubmit={handleSubmit}>
           <label>
@@ -71,7 +136,7 @@ function Login() {
             />
             Remember me
           </label>
-          <button type="submit" className="primary-button">
+          <button type="submit" className="primary-button login-submit-button">
             Sign in
           </button>
         </form>
