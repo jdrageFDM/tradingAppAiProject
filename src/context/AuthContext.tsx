@@ -4,12 +4,15 @@ export interface AuthUser {
   name: string;
   email: string;
   role: string;
+  username?: string;
+  avatarUrl?: string | null;
 }
 
 interface AuthContextValue {
   user: AuthUser | null;
   login: (email: string, password: string, remember?: boolean) => Promise<AuthUser>;
   logout: () => void;
+  updateUser: (changes: Partial<AuthUser>) => AuthUser | null;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -19,7 +22,9 @@ const REMEMBER_EMAIL_KEY = 'ai-trading-app-remembered-email';
 const mockUser: AuthUser = {
   name: 'James Smith',
   email: 'jdrage@gmail.com',
-  role: 'Trader'
+  role: 'Trader',
+  username: 'jdrage',
+  avatarUrl: null
 };
 
 function AuthProvider({ children }: { children: ReactNode }) {
@@ -57,7 +62,18 @@ function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem(REMEMBER_EMAIL_KEY);
   };
 
-  return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
+  const updateUser = (changes: Partial<AuthUser>) => {
+    if (!user) return null;
+    const updated = { ...user, ...changes };
+    setUser(updated);
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    }
+    return updated;
+  };
+
+  return <AuthContext.Provider value={{ user, login, logout, updateUser }}>{children}</AuthContext.Provider>;
 }
 
 function useAuth() {

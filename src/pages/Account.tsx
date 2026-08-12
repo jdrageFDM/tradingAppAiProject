@@ -1,4 +1,9 @@
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
 function Account() {
+  const { user } = useAuth();
+
   return (
     <div className="page-grid">
       <section className="section-card">
@@ -7,14 +12,17 @@ function Account() {
             <p className="small-label">Account summary</p>
             <h2>Account settings</h2>
           </div>
-          <button className="secondary-button">Manage API</button>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <Link to="/account/profile" className="secondary-button">Edit profile</Link>
+            <Link to="/account/preferences" className="secondary-button">Preferences</Link>
+          </div>
         </div>
 
         <div className="account-grid">
           <div className="profile-card">
             <span>Profile</span>
-            <p>Jordan Reeves</p>
-            <small>Trader · Expert</small>
+            <p>{user?.name}</p>
+            <small>{user?.email}</small>
           </div>
           <div className="account-card">
             <span>Plan</span>

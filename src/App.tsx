@@ -8,6 +8,8 @@ import Account from './pages/Account';
 import Login from './pages/Login';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
+import Profile from './pages/Profile';
+import Preferences from './pages/Preferences';
 
 function RequireAuth({ children }: { children: JSX.Element }) {
   const { user } = useAuth();
@@ -39,6 +41,8 @@ function App() {
         <Route path="trade" element={<Trade />} />
         <Route path="market" element={<Market />} />
         <Route path="account" element={<Account />} />
+        <Route path="account/profile" element={<Profile />} />
+        <Route path="account/preferences" element={<Preferences />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

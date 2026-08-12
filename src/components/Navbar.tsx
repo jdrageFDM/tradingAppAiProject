@@ -25,7 +25,15 @@ function Navbar() {
       </div>
       <div className="top-actions">
         <NavLink to="/account" className="profile-pill profile-link">
-          <strong>{user?.name ?? 'Guest'}</strong>
+          {user?.avatarUrl ? (
+            <img src={user.avatarUrl} alt="avatar" className="nav-avatar" />
+          ) : (
+            <span className="nav-avatar-placeholder">{(user?.name ?? 'G').charAt(0)}</span>
+          )}
+          <div className="profile-pill-info">
+            <strong>{user?.name ?? 'Guest'}</strong>
+            <span className="profile-pill-role">{user?.role ?? 'Visitor'}</span>
+          </div>
         </NavLink>
         <div className="balance-pill">
           <span>Available balance</span>
