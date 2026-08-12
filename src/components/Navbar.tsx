@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 function Navbar() {
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const availableBalance = '$84,960';
 
   const handleSignOut = () => {
     logout();
@@ -23,14 +24,12 @@ function Navbar() {
         />
       </div>
       <div className="top-actions">
-        <button className="ghost-button">Insights</button>
-        <button className="ghost-button">Notifications</button>
-        <div className="profile-pill">
-          <span>{user?.name.charAt(0) ?? '?'}</span>
-          <div>
-            <strong>{user?.name ?? 'Guest'}</strong>
-            <span>{user?.role ?? 'Visitor'}</span>
-          </div>
+        <NavLink to="/account" className="profile-pill profile-link">
+          <strong>{user?.name ?? 'Guest'}</strong>
+        </NavLink>
+        <div className="balance-pill">
+          <span>Available balance</span>
+          <strong>{availableBalance}</strong>
         </div>
         <button className="ghost-button" onClick={handleSignOut}>
           Sign out
