@@ -1,82 +1,98 @@
 # AI Trading App Frontend
 
-This repository contains a React + TypeScript frontend scaffold for a stock trading application. It includes a login flow, dashboard, portfolio, trade, market, and account pages, plus a mocked login experience for local development.
+This is a web application that lets users buy and sell stocks through a clean, easy-to-use interface. Think of it as the visual experience for an AI-powered trading platform.
 
-## Project overview
+## What This App Does
 
-- **Frameworks:** React, TypeScript, Vite
-- **Routing:** React Router v6
-- **Authentication:** Local mock login with a persistent `Remember me` option
-- **API integration:** Fetch stubs for backend endpoints
-- **UI:** Dashboard and trading panel layout with responsive styling
+This application provides a complete stock trading experience with several pages:
 
-## Pages and routes
+- **Login Page** - Securely access your account with a username and password
+- **Dashboard** - See an overview of your investments and market highlights at a glance
+- **Portfolio** - View all your current stock holdings and how they're performing
+- **Trade** - Buy and sell stocks with an intuitive order form
+- **Market** - Explore trending stocks and manage your watchlist
+- **Account** - Manage your profile settings and account information
 
-- `/login` - Login screen for authenticated access
-- `/dashboard` - Main portfolio dashboard
-- `/portfolio` - Holdings and portfolio insights
-- `/trade` - Place trades and build orders
-- `/market` - Market movers and watchlist ideas
-- `/account` - Account summary and settings
+## Getting Started
 
-## Login credentials
+### Before You Begin
 
-Use the following credentials for local development:
+Make sure you have Node.js installed on your computer. You can download it from [nodejs.org](https://nodejs.org).
 
-- **Email:** `jdrage@gmail.com`
-- **Password:** `Password1`
+### Installation
 
-## Key files
-
-- `src/App.tsx` - Application routing and protected route wrapper
-- `src/main.tsx` - App bootstrap with router and auth provider
-- `src/context/AuthContext.tsx` - Mock authentication provider and persistence logic
-- `src/pages/Login.tsx` - Login form with remember-me support
-- `src/pages/Dashboard.tsx` - Dashboard layout and market data panels
-- `src/services/tradingApi.ts` - API fetch stubs for backend data
-- `src/index.css` - Global styling and layout
-
-## Backend endpoint placeholders
-
-The frontend currently expects these API endpoints to exist, but falls back to static content and errors when unavailable:
-
-- `GET /api/portfolio`
-- `GET /api/watchlist`
-- `GET /api/market/movers`
-- `POST /api/order`
-
-## Build and run
-
-Install dependencies:
+1. Open your terminal or command prompt
+2. Navigate to this project folder
+3. Run this command to install all necessary files:
 
 ```bash
 npm install
 ```
 
-Run development server:
+This might take a minute or two the first time.
+
+### Running the App
+
+To start working with the app during development:
 
 ```bash
 npm run dev
 ```
 
-Build for production:
+This will start a local server. Open your browser to the URL shown in your terminal (usually `http://localhost:5173`).
+
+### Creating a Version for Production
+
+When you're ready to share the app with real users:
 
 ```bash
 npm run build
 ```
 
-Preview the production build:
+This creates an optimized version. You can preview it with:
 
 ```bash
 npm run preview
 ```
 
-## Repository cleanup
+## Test Login Credentials
 
-This repository is ready to share on GitHub. Generated build output and local dependency folders are ignored by `.gitignore`.
+For development and testing, use these credentials:
 
-## Notes
+- **Email:** `jdrage@gmail.com`
+- **Password:** `Password1`
 
-- The login flow is mocked for now; the real backend authentication can be added later.
-- The top-right profile area in the navbar reflects the current logged-in user.
-- The application uses Vite and expects `index.html` in the project root.
+You'll see a "Remember me" checkbox—check it to stay logged in after closing your browser.
+
+## How It Works Behind the Scenes
+
+### The Building Blocks
+
+The app is built using modern web technologies:
+- **React** - Makes the interface interactive and fast
+- **TypeScript** - Helps catch coding mistakes before they happen
+- **Vite** - A fast tool that bundles everything together
+
+### What's Inside the Project
+
+```
+src/
+├── pages/           - The different screens users see
+├── components/      - Reusable parts of the interface (navigation, sidebars, etc.)
+├── context/         - Manages login information and user sessions
+├── services/        - Handles communication with the server
+└── App.tsx          - Main application file that controls everything
+```
+
+## What Needs to Be Built Next
+
+This app currently uses mock data and is ready for a real backend (the server that stores all the actual data). When connecting to the real backend, you'll need these features:
+
+- **Portfolio Data** - Fetch user's actual stock holdings
+- **Market Information** - Get real stock prices and market trends
+- **Watchlist** - Save and retrieve user's watched stocks
+- **Orders** - Submit real buy/sell requests to the server
+
+## Questions or Issues?
+
+If something isn't working or you need help, check the files in the `src/` folder—they're well-organized and documented. Start with `src/App.tsx` to understand how the application flows.
