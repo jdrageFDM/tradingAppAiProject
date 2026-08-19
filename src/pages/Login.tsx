@@ -2,34 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import ErrorBanner from '../components/ErrorBanner';
-
-const THEME_STORAGE_KEY = 'ai-trading-theme';
-const PREFERENCES_STORAGE_KEY = 'ai-trading-preferences';
-
-const resolveThemePreference = (): 'dark' | 'light' => {
-  const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-  if (storedTheme === 'light' || storedTheme === 'dark') {
-    return storedTheme;
-  }
-
-  const rawPreferences = localStorage.getItem(PREFERENCES_STORAGE_KEY);
-  if (rawPreferences) {
-    try {
-      const parsed = JSON.parse(rawPreferences);
-      if (parsed.theme === 'light' || parsed.theme === 'dark') {
-        return parsed.theme;
-      }
-    } catch {
-      // Ignore malformed stored preferences and fall through to browser preference.
-    }
-  }
-
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-    return 'light';
-  }
-
-  return 'dark';
-};
+import { persistTheme, resolveThemePreference, Theme } from '../services/theme';
 
 function Login() {
   const navigate = useNavigate();
@@ -37,28 +10,11 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<Theme>(() => resolveThemePreference());
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const resolvedTheme = resolveThemePreference();
-    setTheme(resolvedTheme);
-    document.documentElement.setAttribute('data-theme', resolvedTheme);
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(THEME_STORAGE_KEY, theme);
-
-    try {
-      const storedPreferences = localStorage.getItem(PREFERENCES_STORAGE_KEY);
-      if (storedPreferences) {
-        const parsed = JSON.parse(storedPreferences);
-        localStorage.setItem(PREFERENCES_STORAGE_KEY, JSON.stringify({ ...parsed, theme }));
-      }
-    } catch {
-      localStorage.removeItem(PREFERENCES_STORAGE_KEY);
-    }
+    persistTheme(theme);
   }, [theme]);
 
   useEffect(() => {

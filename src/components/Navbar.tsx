@@ -1,52 +1,17 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-
-const THEME_STORAGE_KEY = 'ai-trading-theme';
-const PREFERENCES_STORAGE_KEY = 'ai-trading-preferences';
+import { persistTheme, resolveThemePreference, Theme } from '../services/theme';
 
 function Navbar() {
   const [query, setQuery] = useState('');
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<Theme>(() => resolveThemePreference());
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const availableBalance = '$84,960';
 
   useEffect(() => {
-    const rawPreferences = localStorage.getItem(PREFERENCES_STORAGE_KEY);
-    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-
-    const nextTheme =
-      storedTheme === 'light' || storedTheme === 'dark'
-        ? storedTheme
-        : rawPreferences
-          ? (() => {
-              try {
-                const parsed = JSON.parse(rawPreferences);
-                return parsed.theme === 'light' ? 'light' : 'dark';
-              } catch {
-                return 'dark';
-              }
-            })()
-          : 'dark';
-
-    setTheme(nextTheme);
-    document.documentElement.setAttribute('data-theme', nextTheme);
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(THEME_STORAGE_KEY, theme);
-
-    try {
-      const stored = localStorage.getItem(PREFERENCES_STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        localStorage.setItem(PREFERENCES_STORAGE_KEY, JSON.stringify({ ...parsed, theme }));
-      }
-    } catch {
-      localStorage.removeItem(PREFERENCES_STORAGE_KEY);
-    }
+    persistTheme(theme);
   }, [theme]);
 
   const handleSignOut = () => {
