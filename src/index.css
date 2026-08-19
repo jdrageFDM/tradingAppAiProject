@@ -818,9 +818,12 @@ button {
 
 :root[data-theme='light'] .section-card,
 :root[data-theme='light'] .sidebar-card,
+:root[data-theme='light'] .metric-card,
+:root[data-theme='light'] .watchlist-grid li,
 :root[data-theme='light'] .allocation-card,
 :root[data-theme='light'] .profile-card,
 :root[data-theme='light'] .account-card,
+:root[data-theme='light'] .billing-row div,
 :root[data-theme='light'] .market-hero div,
 :root[data-theme='light'] .activity-log li,
 :root[data-theme='light'] .security-list li,
